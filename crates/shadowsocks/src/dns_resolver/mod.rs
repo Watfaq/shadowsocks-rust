@@ -12,13 +12,14 @@ mod resolver;
 macro_rules! lookup_then {
     ($context:expr, $addr:expr, $port:expr, |$resolved_addr:ident| $body:block) => {{
         use std::net::SocketAddr;
+        use $crate::context::ContextTrait;
 
-        let ipv6_first = $context.ipv6_first();
+        let ipv6_first = ContextTrait::ipv6_first($context);
 
         let mut v4_addrs = Vec::new();
         let mut v6_addrs = Vec::new();
 
-        for addr in $context.dns_resolve($addr, $port).await? {
+        for addr in ContextTrait::dns_resolve($context, $addr, $port).await? {
             match addr {
                 SocketAddr::V4(..) => v4_addrs.push(addr),
                 SocketAddr::V6(..) => v6_addrs.push(addr),

@@ -19,7 +19,8 @@ use hickory_resolver::{
         runtime::{iocompat::AsyncIoTokioAsStd, RuntimeProvider, TokioHandle, TokioTime},
         udp::DnsUdpSocket,
     },
-    ResolveError, Resolver,
+    ResolveError,
+    Resolver,
 };
 use log::trace;
 use tokio::{io::ReadBuf, net::UdpSocket};

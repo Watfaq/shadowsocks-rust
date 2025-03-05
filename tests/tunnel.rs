@@ -11,7 +11,8 @@ use tokio::{
 
 use shadowsocks_service::{
     config::{Config, ConfigType},
-    run_local, run_server,
+    run_local,
+    run_server,
 };
 
 fn random_local_tcp_port_pair() -> (u16, u16) {

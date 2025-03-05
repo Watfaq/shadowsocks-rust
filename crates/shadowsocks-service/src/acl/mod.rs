@@ -19,7 +19,10 @@ use log::{trace, warn};
 use once_cell::sync::Lazy;
 use regex::bytes::{Regex, RegexBuilder, RegexSet, RegexSetBuilder};
 
-use shadowsocks::{context::Context, relay::socks5::Address};
+use shadowsocks::{
+    context::{Context, ContextTrait},
+    relay::socks5::Address,
+};
 
 use self::sub_domains_tree::SubDomainsTree;
 

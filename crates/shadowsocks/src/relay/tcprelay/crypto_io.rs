@@ -1,7 +1,8 @@
 //! IO facilities for TCP relay
 
 use std::{
-    fmt, io,
+    fmt,
+    io,
     marker::Unpin,
     pin::Pin,
     sync::Arc,

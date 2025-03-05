@@ -28,6 +28,32 @@ pub struct Context {
     ipv6_first: bool,
 }
 
+#[allow(async_fn_in_trait)]
+pub trait ContextTrait {
+    fn ipv6_first(&self) -> bool;
+    async fn dns_resolve<'a>(&self, addr: &'a str, port: u16) -> io::Result<impl Iterator<Item = SocketAddr> + 'a>;
+}
+
+impl<T: ContextTrait> ContextTrait for Arc<T> {
+    fn ipv6_first(&self) -> bool {
+        (**self).ipv6_first()
+    }
+
+    async fn dns_resolve<'a>(&self, addr: &'a str, port: u16) -> io::Result<impl Iterator<Item = SocketAddr> + 'a> {
+        (**self).dns_resolve(addr, port).await
+    }
+}
+
+impl ContextTrait for Context {
+    fn ipv6_first(&self) -> bool {
+        self.ipv6_first
+    }
+
+    async fn dns_resolve<'a>(&self, addr: &'a str, port: u16) -> io::Result<impl Iterator<Item = SocketAddr> + 'a> {
+        self.dns_resolver.resolve(addr, port).await
+    }
+}
+
 /// `Context` for sharing between services
 pub type SharedContext = Arc<Context>;
 
@@ -132,19 +158,9 @@ impl Context {
         &self.dns_resolver
     }
 
-    /// Resolves DNS address to `SocketAddr`s
-    pub async fn dns_resolve<'a>(&self, addr: &'a str, port: u16) -> io::Result<impl Iterator<Item = SocketAddr> + 'a> {
-        self.dns_resolver.resolve(addr, port).await
-    }
-
     /// Try to connect IPv6 addresses first if hostname could be resolved to both IPv4 and IPv6
     pub fn set_ipv6_first(&mut self, ipv6_first: bool) {
         self.ipv6_first = ipv6_first;
-    }
-
-    /// Try to connect IPv6 addresses first if hostname could be resolved to both IPv4 and IPv6
-    pub fn ipv6_first(&self) -> bool {
-        self.ipv6_first
     }
 
     /// Set policy against replay attack

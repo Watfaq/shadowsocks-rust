@@ -18,7 +18,10 @@ use shadowsocks::{
     crypto::CipherCategory,
     lookup_then,
     net::{
-        get_ip_stack_capabilities, AcceptOpts, AddrFamily, UdpSocket as OutboundUdpSocket,
+        get_ip_stack_capabilities,
+        AcceptOpts,
+        AddrFamily,
+        UdpSocket as OutboundUdpSocket,
         UdpSocket as InboundUdpSocket,
     },
     relay::{
@@ -30,7 +33,10 @@ use shadowsocks::{
 use tokio::{runtime::Handle, sync::mpsc, task::JoinHandle, time};
 
 use crate::net::{
-    packet_window::PacketWindowFilter, utils::to_ipv4_mapped, MonProxySocket, UDP_ASSOCIATION_KEEP_ALIVE_CHANNEL_SIZE,
+    packet_window::PacketWindowFilter,
+    utils::to_ipv4_mapped,
+    MonProxySocket,
+    UDP_ASSOCIATION_KEEP_ALIVE_CHANNEL_SIZE,
     UDP_ASSOCIATION_SEND_CHANNEL_SIZE,
 };
 

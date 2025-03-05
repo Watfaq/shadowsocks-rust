@@ -19,15 +19,23 @@ use tokio::{
     net::{TcpListener as TokioTcpListener, TcpStream as TokioTcpStream},
 };
 
-use crate::{context::Context, relay::socks5::Address, ServerAddr};
+use crate::{
+    context::{Context, ContextTrait},
+    relay::socks5::Address,
+    ServerAddr,
+};
 
 use super::{
     is_dual_stack_addr,
     sys::{
-        create_inbound_tcp_socket, set_common_sockopt_after_accept, set_tcp_fastopen, socket_bind_dual_stack,
+        create_inbound_tcp_socket,
+        set_common_sockopt_after_accept,
+        set_tcp_fastopen,
+        socket_bind_dual_stack,
         TcpStream as SysTcpStream,
     },
-    AcceptOpts, ConnectOpts,
+    AcceptOpts,
+    ConnectOpts,
 };
 
 /// TcpStream for outbound connections
@@ -42,8 +50,8 @@ impl TcpStream {
     }
 
     /// Connects shadowsocks server
-    pub async fn connect_server_with_opts(
-        context: &Context,
+    pub async fn connect_server_with_opts<T: ContextTrait>(
+        context: &T,
         addr: &ServerAddr,
         opts: &ConnectOpts,
     ) -> io::Result<TcpStream> {

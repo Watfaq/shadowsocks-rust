@@ -25,7 +25,12 @@ use shadowsocks_service::shadowsocks::relay::socks5::Address;
 use shadowsocks_service::{
     acl::AccessControl,
     config::{
-        read_variable_field_value, Config, ConfigType, LocalConfig, LocalInstanceConfig, ProtocolType,
+        read_variable_field_value,
+        Config,
+        ConfigType,
+        LocalConfig,
+        LocalInstanceConfig,
+        ProtocolType,
         ServerInstanceConfig,
     },
     local::{loadbalancing::PingBalancer, Server},
@@ -41,7 +46,8 @@ use crate::logging;
 use crate::{
     config::{Config as ServiceConfig, RuntimeMode},
     error::{ShadowsocksError, ShadowsocksResult},
-    monitor, vparser,
+    monitor,
+    vparser,
 };
 
 #[cfg(feature = "local-dns")]
@@ -939,8 +945,11 @@ pub fn create(matches: &ArgMatches) -> ShadowsocksResult<(Runtime, impl Future<O
         // DONE READING options
 
         if config.local.is_empty() {
-            return Err(ShadowsocksError::InsufficientParams("missing `local_address`, consider specifying it by --local-addr command line option, \
-                    or \"local_address\" and \"local_port\" in configuration file".to_string()));
+            return Err(ShadowsocksError::InsufficientParams(
+                "missing `local_address`, consider specifying it by --local-addr command line option, \
+                    or \"local_address\" and \"local_port\" in configuration file"
+                    .to_string(),
+            ));
         }
 
         config

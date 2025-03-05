@@ -26,7 +26,8 @@ use crate::logging;
 use crate::{
     config::{Config as ServiceConfig, RuntimeMode},
     error::{ShadowsocksError, ShadowsocksResult},
-    monitor, vparser,
+    monitor,
+    vparser,
 };
 
 /// Defines command line options
@@ -481,9 +482,12 @@ pub fn create(matches: &ArgMatches) -> ShadowsocksResult<(Runtime, impl Future<O
         // DONE READING options
 
         if config.server.is_empty() {
-            return Err(ShadowsocksError::InsufficientParams("missing proxy servers, consider specifying it by \
+            return Err(ShadowsocksError::InsufficientParams(
+                "missing proxy servers, consider specifying it by \
                     --server-addr, --encrypt-method, --password command line option, \
-                        or configuration file, check more details in https://shadowsocks.org/doc/configs.html".to_string()));
+                        or configuration file, check more details in https://shadowsocks.org/doc/configs.html"
+                    .to_string(),
+            ));
         }
 
         config
