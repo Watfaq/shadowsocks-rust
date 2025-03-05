@@ -99,7 +99,7 @@ pub struct UdpServer {
 }
 
 impl UdpServer {
-    pub(crate) async fn new(
+    pub async fn new(
         context: Arc<ServiceContext>,
         svr_cfg: ServerConfig,
         time_to_live: Option<Duration>,

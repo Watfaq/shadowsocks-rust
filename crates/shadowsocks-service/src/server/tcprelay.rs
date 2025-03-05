@@ -34,7 +34,7 @@ pub struct TcpServer {
 }
 
 impl TcpServer {
-    pub(crate) async fn new(
+    pub async fn new(
         context: Arc<ServiceContext>,
         svr_cfg: ServerConfig,
         accept_opts: AcceptOpts,
